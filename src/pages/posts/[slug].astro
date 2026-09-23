@@ -1,14 +1,26 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
-import { formatDate } from '../../lib';
+import { formatDate, slugOf } from '../../lib';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.data.slug ?? post.id },
+  const paths = posts.map((post) => ({
+    params: { slug: slugOf(post) },
     props: { post },
   }));
+
+  // 极罕见的哈希撞车检测：撞了给出清晰报错，而不是莫名其妙的重复路由
+  const seen = new Set<string>();
+  for (const p of paths) {
+    if (seen.has(p.params.slug)) {
+      throw new Error(
+        `slug 撞车：「${p.params.slug}」被多篇文章使用。请在 src/lib.ts 调大 SLUG_LENGTH，或给其中一篇写 slug。`,
+      );
+    }
+    seen.add(p.params.slug);
+  }
+  return paths;
 }
 
 const { post } = Astro.props;

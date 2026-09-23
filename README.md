@@ -4,7 +4,7 @@
 
 - 文章 = Markdown 文件，顶部就是 **Obsidian 的 Properties**（`title` / `tags` / `date`…）
 - `tags` 属性自动生成 `/explore` 标签页和 `/tags/xxx/` 标签页
-- **中文标题显示 + 短链接分享**：标题用中文 `title`，网址用短英文 `slug`
+- **中文标题显示 + 短链接分享**：标题用中文 `title`，网址自动用短链（写了 `slug` 就用 slug，没写就自动生成 6 位哈希短链）
 - 一键部署到 Cloudflare Pages，连接 GitHub 后每次 push 自动发布
 
 ## 目录结构
@@ -63,7 +63,7 @@ tags:
 | `title` | ✅ | 显示用标题，可以写中文 |
 | `date` | ✅ | 发布日期，`2024-11-03` 这样的字符串即可 |
 | `tags` | 可选 | 标签，支持列表 / `[a, b]` / 单个字符串三种写法；对应 Obsidian 的 `tags` 属性，驱动 Explore 页 |
-| `slug` | 可选 | 自定义短链接；不写就用文件名 |
+| `slug` | 可选 | 自定义短链接；不写就自动生成 6 位哈希短链 |
 | `description` | 可选 | 文章摘要（用于 `<meta description>`） |
 | `draft` | 可选 | `true` 表示草稿，不发布 |
 
@@ -74,14 +74,16 @@ tags:
 分享链接的长短取决于「路径」，而不是标题：
 
 - **显示标题**用 `title`（中文，随便写）
-- **网址路径**用 `slug`（短英文，写进 Properties）
+- **网址路径**用 `slug`
 
-规则：`slug` 没写就用**文件名**。所以有两种做法：
+`slug` 的取值规则：
 
-1. 文件名用短英文（如 `hello-world.md`）→ 网址就是 `/posts/hello-world/`
-2. 文件名是中文，但写一个 `slug`（见示例 `如何搭建一个极简博客.md`）→ 网址是 `/posts/how-to-build-a-minimal-blog/`
+1. 写了 `slug` → 直接用（见示例 `如何搭建一个极简博客.md` → `/posts/how-to-build-a-minimal-blog/`）
+2. 没写 `slug` → **自动生成一个 6 位哈希短链**，如 `/posts/1a2b3c`（基于文件名做 sha256，同一篇文章每次构建结果都稳定不变）
 
-这样浏览器地址栏里的链接就是干净的短链，分享出去不会有 `%E5%A6%82%E4%BD%95...` 那堆编码。
+所以每篇文章都会自动有一个干净好分享的短链，中文文件名也不用担心变成 `%E5%A6%82%E4%BD%95...` 那堆编码，更不用每篇手写 slug。
+
+> 哈希长度在 `src/lib.ts` 顶部的 `SLUG_LENGTH` 里调；文章特别多、怕撞车就改成 `8`。真撞车了构建会给出明确报错。
 
 ## 部署到 Cloudflare Pages
 
