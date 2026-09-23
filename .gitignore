@@ -5,6 +5,9 @@ dist/
 # dependencies
 node_modules/
 
+# local npm cache (used when building inside a sandbox)
+.npm-cache/
+
 # logs
 npm-debug.log*
 yarn-debug.log*
