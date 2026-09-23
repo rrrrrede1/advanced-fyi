@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { slugOf, formatDate } from '../../lib';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const tags = new Set(posts.flatMap((p) => p.data.tags));
+  return [...tags].map((tag) => ({ params: { tag }, props: { tag } }));
+}
+
+const { tag } = Astro.props;
+const posts = (await getCollection('blog', ({ data }) => !data.draft && data.tags.includes(tag))).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<Base title={tag} description={`标签「${tag}」下的所有文章。`}>
+  <h1 class="site-title">{tag}</h1>
+  <p class="tagline">标签「{tag}」下的所有文章。</p>
+
+  <ul class="posts">
+    {posts.map((post) => (
+      <li>
+        <a class="title" href={`/posts/${slugOf(post)}/`}>{post.data.title}</a>
+        <span class="date">{formatDate(post.data.date)}</span>
+      </li>
+    ))}
+  </ul>
+</Base>

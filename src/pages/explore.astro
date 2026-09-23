@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+// 统计每个标签的文章数
+const counts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    counts.set(tag, (counts.get(tag) ?? 0) + 1);
+  }
+}
+const tags = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<Base title="Explore" description="按标签浏览所有文章。">
+  <h1 class="site-title">Explore</h1>
+  <p class="tagline">按标签浏览所有文章。</p>
+
+  <h2 class="section-heading">Guides by Tag</h2>
+  <div class="tags">
+    <a href="/">All <span class="count">{posts.length}</span></a>
+    {tags.map(([tag, count]) => (
+      <a href={`/tags/${tag}/`}>{tag} <span class="count">{count}</span></a>
+    ))}
+  </div>
+</Base>
