@@ -3,8 +3,8 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-  // TODO: 改成你 Cloudflare Pages 的最终地址（用于生成规范的 canonical / 站点地图）
-  site: 'https://yourname.pages.dev',
+  // Cloudflare Pages 的最终地址（用于生成规范的 canonical / 站点地图）
+  site: 'https://infiniteblack.dev/',
 
   // 输出干净的目录式 URL（/posts/xxx/ 而不是 /posts/xxx.html）
   build: {

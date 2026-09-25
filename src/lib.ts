@@ -1,10 +1,19 @@
 import { createHash } from 'node:crypto';
 import type { CollectionEntry } from 'astro:content';
 
-// ====== 站点信息（改这里即可） ======
-export const SITE_TITLE = 'yourname.dev';
+// ====== 站点信息 ======
+// 站点地址的唯一来源是 astro.config.mjs 里的 `site`。
+// 改那一处，页面标题、页头 logo、页脚、canonical 都会跟着变。
+const siteUrl = import.meta.env.SITE ?? 'http://localhost:4321';
+
+export const SITE_URL = siteUrl;
+
+/** 想在页面上显示跟域名不同的名字时填这里；留空则自动取域名。 */
+const SITE_TITLE_OVERRIDE = '';
+
+export const SITE_TITLE = SITE_TITLE_OVERRIDE || new URL(siteUrl).hostname;
+
 export const SITE_TAGLINE = '代码、设计，以及介于两者之间的一切。';
-export const SITE_URL = 'https://yourname.pages.dev';
 
 export type Post = CollectionEntry<'blog'>;
 
