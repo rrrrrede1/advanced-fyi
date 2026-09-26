@@ -56,9 +56,9 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 28px 0;
+  padding: 16px 0;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 56px;
+  margin-bottom: 40px;
 }
 /* 页眉图标：形状来自 /logo.png，颜色由 background-color 决定，
    所以会自动跟随主题（浅色模式深色、深色模式白色），无需准备两套图。
