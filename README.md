@@ -252,6 +252,37 @@ Pages 项目 → **Custom domains** → **Set up a domain**。注意**一个域�
 | `@astrojs/rss` | 生成 RSS feed |
 | `markdown-it` | 把文章 Markdown 转成 HTML 塞进 RSS 全文 |
 
+## 授权（License）
+
+本项目采用**代码与内容分离**的双重授权：
+
+| 范围 | 协议 | 文件 |
+|------|------|------|
+| **代码**（模板、样式、构建配置等） | AGPL-3.0 | [`LICENSE`](LICENSE) |
+| **文章内容**（`src/content/blog/` 下的 Markdown） | CC BY-NC-SA 4.0 | [`LICENSE-CONTENT`](LICENSE-CONTENT) |
+| **页眉图标 / favicon** | icons8 免费许可（需署名，页脚已加） | [icons8.com/license](https://icons8.com/license) |
+
+### 代码：AGPL-3.0 的一个实际影响
+
+AGPL 第 13 条要求：如果你**修改**了这个站点并把它作为网络服务提供给他人访问，需要让访问者能拿到修改后的源码。
+
+对个人博客来说这很好满足——**只要仓库是公开的**（比如放在 GitHub 上），就已经符合了。
+
+### 内容：CC BY-NC-SA 4.0 意味着什么
+
+别人可以**非商业地**转载、改编你的文章，但必须：
+
+1. 署名（给出作者和原文链接）
+2. 不用于商业目的
+3. 改编后以同样的协议分享
+
+> 注意：这个协议**不允许**别人把你的文章拿去商用（包括你自己以后要商用也得另作安排）。
+> 如果想禁止演绎，可换成 CC BY-NC-ND 4.0；想保留全部权利就直接写「保留所有权利」。
+
+## 致谢
+
+- 设计风格参考自 [cs.fyi](https://cs.fyi/) —— 仅参考了布局与排版的**思路**，样式与代码均为独立实现，未复制其代码或文章内容。
+
 ## 常见问题
 
 - **不想要暗色模式**：删掉 `global.css` 里 `@media (prefers-color-scheme: dark)` 整段。

@@ -13,7 +13,7 @@ const SITE_TITLE_OVERRIDE = '';
 
 export const SITE_TITLE = SITE_TITLE_OVERRIDE || new URL(siteUrl).hostname;
 
-export const SITE_TAGLINE = '代码、设计，以及介于两者之间的一切。';
+export const SITE_TAGLINE = '写点技术，也写点别的。';
 
 export type Post = CollectionEntry<'blog'>;
 
