@@ -25,8 +25,8 @@ blog/                          ← 仓库根目录
 │       ├── posts/[slug].astro 文章详情页
 │       └── tags/[tag].astro   单个标签页
 └── public/
-    ├── favicon.svg            站点图标（浏览器标签页）
-    └── logo.svg               页眉图标（可替换成自己的）
+    ├── logo.png               页眉图标（已裁掉透明留白）
+    └── favicon.png            标签页图标（由 logo.png 合成）
 ```
 
 ## 本地运行
@@ -87,28 +87,35 @@ tags:
 
 > 哈希长度在 `src/lib.ts` 顶部的 `SLUG_LENGTH` 里调；文章特别多、怕撞车就改成 `8`。真撞车了构建会给出明确报错。
 
-## 页眉图标（logo）
+## 页眉图标（logo）与 favicon
 
-页眉左侧是图标（复刻 cs.fyi 的做法）。图标放在 `public/`，用 CSS `mask` 渲染，
-**颜色由 CSS 决定**，会自动跟随主题（浅色模式深色、深色模式白色），不用准备两套图。
+两个图标来自同一份 icons8 下载，保证视觉统一：
 
-- `public/logo.svg` —— 当前是**占位用**的无限符号，可以替换成自己的
-- 显示尺寸 26×26px，在 `global.css` 的 `.site-header .logo` 里调
+| 文件 | 用途 |
+|------|------|
+| `public/logo.png` | 页眉图标。**已裁掉透明留白**（原图 100×100 里，图形本体只占 82×44） |
+| `public/favicon.png` | 标签页图标。由 logo.png 合成：深色圆角底 + 白色图形 |
+
+页眉用 CSS `mask` 渲染，**颜色由 CSS 决定**，会自动跟随主题
+（浅色模式深色、深色模式白色），不用准备两套图。
+
+- 显示尺寸 40×22px，在 `global.css` 的 `.site-header .logo` 里调
 - 悬停效果：`opacity: 0.7 → 1`（就是"亮起来"）
 
-### 换成自己下载的图标
+### 换图标
 
-1. 把图标放进 `public/`，例如 `public/logo.png`
-   - ⚠️ **背景必须透明**，否则会渲染成一个实心方块（mask 只取图标的形状/透明度）
-2. 打开 `src/styles/global.css`，把 `.site-header .logo` 里的两处
-   `url("/logo.svg")` 改成 `url("/logo.png")`
-3. 保存即可，**不需要**再做一张"变亮版"
+1. 下载新图标覆盖 `public/logo.png`
+   - ⚠️ **背景必须透明**（mask 只取形状和透明度），否则会变成实心方块
+2. **裁掉透明留白**，否则 `contain` 会把空白也算进去，图标显得很小
+3. 重新生成 favicon（也可以把文件给我，我帮你处理）
+4. 如果新图标是**方形**的，把 `.site-header .logo` 的
+   `width: 40px; height: 22px` 改成接近方形，例如 `28px` / `28px`
 
-### 为什么不需要"变亮版"，100×100 也完全够
+### 为什么不需要"变亮版"
 
-- 页眉只显示 26px，2 倍屏（Retina）也只需要 52px，所以 **100×100 绰绰有余**，不会糊
 - mask 把图标当"形状"，颜色来自 `background-color: var(--fg)`，所以 icons8「不能改颜色」不是问题
 - 悬停的"变亮"是 CSS 的 `opacity` 变化，不需要第二个文件
+- 100×100 完全够：页眉只显示 40px 宽，2 倍屏也只需 80px
   - 想要相反效果（默认实心、悬停变淡）就把 `opacity: 0.7` 和 `1` 对调
 
 ### 想保留图标原本的配色？
@@ -117,7 +124,7 @@ tags:
 
 ```astro
 <a class="logo" href="/" aria-label={SITE_TITLE}>
-  <img src="/logo.png" alt="" width="26" height="26" />
+  <img src="/logo.png" alt="" width="40" height="22" />
 </a>
 ```
 
