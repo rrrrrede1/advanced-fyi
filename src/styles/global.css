@@ -60,7 +60,22 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   border-bottom: 1px solid var(--border);
   margin-bottom: 56px;
 }
-.site-header .logo { font-weight: 700; font-size: 17px; }
+/* 页眉图标：形状来自 /logo.svg，颜色由 background-color 决定，
+   所以会自动跟随主题（浅色模式深色、深色模式白色），无需准备两套图。 */
+.site-header .logo {
+  display: block;
+  width: 26px;
+  height: 26px;
+  background-color: var(--fg);
+  -webkit-mask: url("/logo.svg") center / contain no-repeat;
+  mask: url("/logo.svg") center / contain no-repeat;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+.site-header .logo:hover {
+  opacity: 1;
+  text-decoration: none;
+}
 .site-header nav { display: flex; gap: 22px; }
 .site-header nav a { color: var(--muted); font-size: 15px; }
 .site-header nav a:hover { color: var(--fg); text-decoration: none; }

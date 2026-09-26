@@ -24,7 +24,9 @@ blog/                          ← 仓库根目录
 │       ├── explore.astro      标签总览页
 │       ├── posts/[slug].astro 文章详情页
 │       └── tags/[tag].astro   单个标签页
-└── public/favicon.svg
+└── public/
+    ├── favicon.svg            站点图标（浏览器标签页）
+    └── logo.svg               页眉图标（可替换成自己的）
 ```
 
 ## 本地运行
@@ -85,6 +87,51 @@ tags:
 
 > 哈希长度在 `src/lib.ts` 顶部的 `SLUG_LENGTH` 里调；文章特别多、怕撞车就改成 `8`。真撞车了构建会给出明确报错。
 
+## 页眉图标（logo）
+
+页眉左侧是图标（复刻 cs.fyi 的做法）。图标放在 `public/`，用 CSS `mask` 渲染，
+**颜色由 CSS 决定**，会自动跟随主题（浅色模式深色、深色模式白色），不用准备两套图。
+
+- `public/logo.svg` —— 当前是**占位用**的无限符号，可以替换成自己的
+- 显示尺寸 26×26px，在 `global.css` 的 `.site-header .logo` 里调
+- 悬停效果：`opacity: 0.7 → 1`（就是"亮起来"）
+
+### 换成自己下载的图标
+
+1. 把图标放进 `public/`，例如 `public/logo.png`
+   - ⚠️ **背景必须透明**，否则会渲染成一个实心方块（mask 只取图标的形状/透明度）
+2. 打开 `src/styles/global.css`，把 `.site-header .logo` 里的两处
+   `url("/logo.svg")` 改成 `url("/logo.png")`
+3. 保存即可，**不需要**再做一张"变亮版"
+
+### 为什么不需要"变亮版"，100×100 也完全够
+
+- 页眉只显示 26px，2 倍屏（Retina）也只需要 52px，所以 **100×100 绰绰有余**，不会糊
+- mask 把图标当"形状"，颜色来自 `background-color: var(--fg)`，所以 icons8「不能改颜色」不是问题
+- 悬停的"变亮"是 CSS 的 `opacity` 变化，不需要第二个文件
+  - 想要相反效果（默认实心、悬停变淡）就把 `opacity: 0.7` 和 `1` 对调
+
+### 想保留图标原本的配色？
+
+把 CSS 的 mask 换成 `<img>` 写法（这时颜色就固定为文件本身的颜色）：
+
+```astro
+<a class="logo" href="/" aria-label={SITE_TITLE}>
+  <img src="/logo.png" alt="" width="26" height="26" />
+</a>
+```
+
+### icons8 授权（重要）
+
+icons8 的免费图标**可以商用**，但有条件（[官方说明](https://icons8.com/license)、[帮助中心](https://intercom.help/icons8-7fb7577e8170/en/articles/4732904-how-and-where-can-i-use-your-icons)）：
+
+- 免费版只有 **PNG、最大 100×100**
+- **必须在使用处提供一个指向 icons8.com 的链接**（署名）
+- 禁止转售/再分发图标本身；付费订阅可去掉署名要求
+
+所以一旦换成 icons8 的图标，记得在页脚署名。`src/layouts/Base.astro` 的页脚里
+已经留了一段注释好的署名代码，取消注释即可。
+
 ## 部署到 Cloudflare Pages
 
 1. 把本项目 push 到一个 GitHub 仓库（仓库根目录就是 `blog/`）。
@@ -96,7 +143,7 @@ tags:
 
 ## 设计说明（cs.fyi 的简洁风格）
 
-- 单栏窄行宽（640px）、居中，没有侧边栏和卡片
+- 单栏窄行宽（760px）、居中，没有侧边栏和卡片
 - 系统无衬线字体，正文 17px，行高 1.7
 - 近黑正文 + 白底 + 灰色次要文字，几乎没有彩色
 - 链接与正文同色、悬停下划线；日期灰色
