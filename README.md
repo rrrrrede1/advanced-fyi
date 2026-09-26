@@ -58,7 +58,8 @@ site: 'https://infiniteblack.dev/',
 | `SITE_URL` | 站点地址 | 取自 `astro.config.mjs` 的 `site` |
 | `SITE_TITLE` | 页面上显示的站点名 | 自动取域名（`infiniteblack.dev`） |
 | `SITE_TITLE_OVERRIDE` | 想在页面显示跟域名不同的名字时填这里 | 空（空则用域名） |
-| `SITE_TAGLINE` | 首页大标题下的副标题 | `代码、设计，以及介于两者之间的一切。` |
+| `SITE_TAGLINE` | 首页大标题下的副标题 | `写点技术，也写点别的。` |
+| `COPYRIGHT_YEAR` | 页脚版权年份（故意写死，不自动更新） | `2026` |
 | `SLUG_LENGTH` | 自动短链的字符数 | `6` |
 
 > `Base.astro` 还会输出 `og:title` / `og:description` / `og:url`，所以分享到社交平台时预览卡片显示的是你的中文标题。
@@ -240,7 +241,7 @@ Pages 项目 → **Custom domains** → **Set up a domain**。注意**一个域�
 - 文章列表用极细分隔线
 - **代码块**：纯色浅灰底 + 圆角；大屏（≥880px）时向两侧各扩出 40px，方便看长代码
 - **表格**：极简下划线样式（无边框、无斑马纹）
-- **页脚**：一行 —— 版权 · RSS · 图标署名
+- **页脚**：一行 —— 版权 © 2026 · RSS · 图标署名
 
 要改配色/字体/宽度，只改 `src/styles/global.css` 顶部 `:root` 里的变量即可。
 
@@ -261,6 +262,12 @@ Pages 项目 → **Custom domains** → **Set up a domain**。注意**一个域�
 | **代码**（模板、样式、构建配置等） | AGPL-3.0 | [`LICENSE`](LICENSE) |
 | **文章内容**（`src/content/blog/` 下的 Markdown） | CC BY-NC-SA 4.0 | [`LICENSE-CONTENT`](LICENSE-CONTENT) |
 | **页眉图标 / favicon** | icons8 免费许可（需署名，页脚已加） | [icons8.com/license](https://icons8.com/license) |
+
+版权声明：`Copyright (C) 2026 infiniteblack.dev`
+（年份写死在 `src/lib.ts` 的 `COPYRIGHT_YEAR`，故意不自动更新）
+
+> 因为代码（AGPL）和内容（CC BY-NC-SA）都是开放许可，页脚**没有**写「All rights reserved」
+> —— 那句话在开放协议下是不准确的。
 
 ### 代码：AGPL-3.0 的一个实际影响
 

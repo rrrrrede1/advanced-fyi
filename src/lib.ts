@@ -15,6 +15,9 @@ export const SITE_TITLE = SITE_TITLE_OVERRIDE || new URL(siteUrl).hostname;
 
 export const SITE_TAGLINE = '写点技术，也写点别的。';
 
+/** 版权年份。故意写死，不自动更新。 */
+export const COPYRIGHT_YEAR = 2026;
+
 export type Post = CollectionEntry<'blog'>;
 
 /** 短链长度（自动生成的哈希 slug 的字符数）。文章特别多、怕撞车就调大一点。 */

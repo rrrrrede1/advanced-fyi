@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { SITE_TITLE, SITE_TAGLINE, SITE_URL } from '../lib';
+import { SITE_TITLE, SITE_TAGLINE, SITE_URL, COPYRIGHT_YEAR } from '../lib';
 
 interface Props {
   title?: string;
@@ -45,7 +45,7 @@ const pageTitle = title ? `${title} — ${SITE_TITLE}` : SITE_TITLE;
       </main>
 
       <footer class="site-footer">
-        <span>© All rights reserved — {SITE_TITLE}</span>
+        <span>© {COPYRIGHT_YEAR} {SITE_TITLE}</span>
         <span> · <a href="/rss.xml">RSS</a></span>
         <span> · Icon by <a href="https://icons8.com/icon/gKl4y051Zp8E/infinity" target="_blank" rel="noopener noreferrer">Icons8</a></span>
       </footer>
