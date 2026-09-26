@@ -16,6 +16,7 @@ blog/                          ← 仓库根目录
 ├── src/
 │   ├── content.config.ts      文章属性（Properties）的 schema
 │   ├── lib.ts                 站点名 / 副标题 / 工具函数
+│   ├── feed.ts                RSS feed 生成逻辑
 │   ├── styles/global.css      全部样式（cs.fyi 风格）
 │   ├── layouts/Base.astro     公共头部 + 页脚
 │   ├── content/blog/*.md      ★ 你的文章就写在这里（Obsidian 打开这个文件夹）
@@ -23,7 +24,9 @@ blog/                          ← 仓库根目录
 │       ├── index.astro        首页（文章列表）
 │       ├── explore.astro      标签总览页
 │       ├── posts/[slug].astro 文章详情页
-│       └── tags/[tag].astro   单个标签页
+│       ├── tags/[tag].astro   单个标签页
+│       ├── rss.xml.ts         RSS 端点（/rss.xml）
+│       └── index.xml.ts       RSS 端点（/index.xml，Hugo 风格）
 └── public/
     ├── logo.png               页眉图标（已裁掉透明留白）
     └── favicon.png            标签页图标（由 logo.png 合成）
@@ -138,6 +141,34 @@ icons8 的免费图标**可以商用**，但有条件（[官方说明](https://i
 
 **页脚已经加好署名了**（见 `src/layouts/Base.astro`），指向你下载的那个图标页面。
 如果以后换成别家的图标，记得把这一行替换成对应的来源或删掉。
+
+## RSS 订阅
+
+构建时会生成两个路径，内容完全相同，只是路径习惯不同：
+
+| 路径 | 说明 |
+|------|------|
+| `/rss.xml` | 标准路径。页脚有链接，`<head>` 里也有 `rel="alternate"`，阅读器可自动发现 |
+| `/index.xml` | Hugo 风格的同名副本 |
+
+线上地址就是 `https://你的域名/rss.xml` 和 `https://你的域名/index.xml`（已带嵌套目录，直接可用）。
+
+feed 里包含**全文**：Markdown 会被转成 HTML 放进 `content:encoded`，所以在阅读器里能直接读完，不用跳回网页。同时每篇也带 `description`、`categories`（来自 `tags`）、绝对链接。
+
+### 相关文件
+
+| 文件 | 作用 |
+|------|------|
+| `src/feed.ts` | feed 生成逻辑（两个路径共用一份） |
+| `src/pages/rss.xml.ts` | `/rss.xml` 端点 |
+| `src/pages/index.xml.ts` | `/index.xml` 端点 |
+
+### 想调整
+
+- **只要一个路径**：删掉 `src/pages/index.xml.ts`（或 `rss.xml.ts`）
+- **不要全文、只要摘要**：删掉 `src/feed.ts` 里的 `content:` 那行，并卸载 `markdown-it`
+- **改订阅源标题/描述**：用的是 `src/lib.ts` 里的 `SITE_TITLE` / `SITE_TAGLINE`
+- **更多字段（封面图、作者、播客等）**：见 [@astrojs/rss 文档](https://docs.astro.build/en/recipes/rss/)
 
 ## 部署到 Cloudflare Pages
 

@@ -20,6 +20,7 @@ const pageTitle = title ? `${title} — ${SITE_TITLE}` : SITE_TITLE;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE_TITLE} RSS`} href="/rss.xml" />
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title ?? SITE_TITLE} />
@@ -45,6 +46,7 @@ const pageTitle = title ? `${title} — ${SITE_TITLE}` : SITE_TITLE;
 
       <footer class="site-footer">
         <span>© All rights reserved — {SITE_TITLE}</span>
+        <span> · <a href="/rss.xml">RSS</a></span>
         <span> · Icon by <a href="https://icons8.com/icon/gKl4y051Zp8E/infinity" target="_blank" rel="noopener noreferrer">Icons8</a></span>
       </footer>
     </div>
